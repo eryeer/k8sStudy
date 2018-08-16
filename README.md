@@ -145,4 +145,27 @@ HOME=/root
 #进入pods
 kubectl exec -ti $POD_NAME bash
 root@kubernetes-bootcamp-5c69669756-p9s7m:/# kubectl exec -ti $POD_NAME bash
+#获取服务
+kubectl get services
+#创建一个服务
+kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080
+#查看service详细信息
+kubectl describe services/kubernetes-bootcamp
+#获取对外端口号
+export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}')
+echo NODE_PORT=$NODE_PORT
+#测试连接
+curl $(minikube ip):$NODE_PORT
+
+#通过label寻找
+kubectl get pods -l run=kubernetes-bootcamp
+export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
+echo Name of the Pod: $POD_NAME
+#添加标签
+kubectl label pod $POD_NAME app=v1
+#查看标签
+kubectl describe pods $POD_NAME
+kubectl get pods -l app=v1
+#删除服务
+kubectl delete service -l run=kubernetes-bootcamp
 ```
