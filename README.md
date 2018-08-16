@@ -122,4 +122,27 @@ export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{
 echo Name of the Pod: $POD_NAME
 #调用Pod的请求
 curl http://localhost:8001/api/v1/namespaces/default/pods/$POD_NAME/proxy/
+Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-5c69669756-p9s7m | v=1
+#查看pods 内部的运行情况
+kubectl describe pods
+#查看pod内部的打印
+kubectl logs $POD_NAME
+#查看环境变量
+kubectl exec $POD_NAME env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=kubernetes-bootcamp-5c69669756-p9s7m
+KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_PORT_443_TCP_PORT=443
+KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
+KUBERNETES_SERVICE_HOST=10.96.0.1
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_PORT=tcp://10.96.0.1:443
+NPM_CONFIG_LOGLEVEL=info
+NODE_VERSION=6.3.1
+HOME=/root
+#进入pods
+kubectl exec -ti $POD_NAME bash
+root@kubernetes-bootcamp-5c69669756-p9s7m:/# kubectl exec -ti $POD_NAME bash
 ```
